@@ -1,0 +1,97 @@
+
+// Include theming for Angular Material with `mat.theme()`.
+// This Sass mixin will define CSS variables that are used for styling Angular Material
+// components according to the Material 3 design spec.
+// Learn more about theming and how to use it for your application's
+// custom components at https://material.angular.dev/guide/theming
+@use '@angular/material' as mat;
+
+html {
+  @include mat.theme((
+    color: (
+      primary: mat.$azure-palette,
+      tertiary: mat.$blue-palette,
+    ),
+    typography: Roboto,
+    density: 0,
+  ));
+}
+
+body {
+  // Default the application to a light color theme. This can be changed to
+  // `dark` to enable the dark color theme, or to `light dark` to defer to the
+  // user's system settings.
+  color-scheme: light;
+
+  // Set a default background, font and text colors for the application using
+  // Angular Material's system-level CSS variables. Learn more about these
+  // variables at https://material.angular.dev/guide/system-variables
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+
+  // Reset the user agent margin.
+  margin: 0;
+}
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background: #f6f8fc;
+  color: #0f172a;
+}
+
+/* ---- PayHub design tokens & shared utilities ---- */
+:root {
+  --brand-1: #4f46e5;
+  --brand-2: #06b6d4;
+  --brand-grad: linear-gradient(135deg, #4f46e5, #06b6d4);
+  --ink: #0f172a;
+  --muted: #64748b;
+  --line: #e6eaf1;
+  --surface: #ffffff;
+}
+
+.page-title { font-size: 26px; font-weight: 700; color: var(--ink); margin: 0 0 4px; letter-spacing: -0.01em; }
+.page-sub { color: var(--muted); margin: 0 0 24px; font-size: 15px; }
+
+.surface {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 1px 2px rgba(2, 6, 23, 0.04), 0 10px 30px rgba(2, 6, 23, 0.05);
+}
+
+/* Soften Angular Material cards to match */
+mat-card.mat-mdc-card {
+  border-radius: 16px !important;
+  border: 1px solid var(--line);
+  box-shadow: 0 1px 2px rgba(2, 6, 23, 0.04), 0 10px 30px rgba(2, 6, 23, 0.05) !important;
+}
+
+/* Status chips */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 11px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.6;
+  white-space: nowrap;
+}
+.chip::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; opacity: 0.9; }
+.chip.green { color: #047857; background: #d1fae5; }
+.chip.amber { color: #b45309; background: #fef3c7; }
+.chip.red { color: #b91c1c; background: #fee2e2; }
+.chip.gray { color: #475569; background: #e2e8f0; }
+.chip.blue { color: #1d4ed8; background: #dbeafe; }
+
+/* Stat tiles */
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; }
+.stat { padding: 16px; border-radius: 14px; background: #f8fafc; border: 1px solid var(--line); }
+.stat .label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); font-weight: 600; }
+.stat .value { font-size: 20px; font-weight: 700; color: var(--ink); margin-top: 6px; }

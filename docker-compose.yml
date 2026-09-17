@@ -1,0 +1,51 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: payhub
+      POSTGRES_USER: payhub
+      POSTGRES_PASSWORD: payhub
+    # Host 5432 is taken by a local Postgres install; publish on 5434 to avoid a
+    # conflict. The app reaches the db internally as db:5432 regardless.
+    ports:
+      - "5434:5432"
+    volumes:
+      - payhub_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U payhub -d payhub"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  app:
+    build:
+      context: ./Backend
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_URL: jdbc:postgresql://db:5432/payhub
+      DB_USERNAME: payhub
+      DB_PASSWORD: payhub
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:4200}
+      OAUTH2_SUCCESS_REDIRECT: ${OAUTH2_SUCCESS_REDIRECT:-http://localhost:4200/oauth2/callback}
+      # Provide real values in a .env file (see .env.example) to exercise
+      # Google login and Stripe; the app boots fine without them.
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-changeit-client-id}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-changeit-client-secret}
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-sk_test_placeholder}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-whsec_placeholder}
+    ports:
+      - "8080:8080"
+
+  web:
+    build:
+      context: ./Frontend
+    depends_on:
+      - app
+    # Served on 4200 to match the backend's CORS origin and OAuth success redirect.
+    ports:
+      - "4200:80"
+
+volumes:
+  payhub_pgdata:

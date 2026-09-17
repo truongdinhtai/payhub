@@ -1,0 +1,10 @@
+# Secrets — never commit
+.env
+.env.local
+*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Per-module build output (Backend/ and Frontend/ also have their own .gitignore)
