@@ -30,7 +30,7 @@ class JwtServiceTest {
 
     @BeforeEach
     void setUp() {
-        keys = new RsaKeyProvider();
+        keys = new RsaKeyProvider("", "");
         NimbusJwtEncoder encoder = new NimbusJwtEncoder(new ImmutableJWKSet<>(keys.jwkSet()));
         jwtService = new JwtService(encoder, Duration.ofHours(1));
         jwtDecoder = NimbusJwtDecoder.withPublicKey(keys.publicKey()).build();

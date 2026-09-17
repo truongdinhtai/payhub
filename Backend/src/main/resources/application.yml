@@ -60,6 +60,10 @@ payhub:
     jwt:
       # Access-token lifetime (ISO-8601 duration).
       ttl: ${JWT_TTL:PT1H}
+      # Fixed RSA signing key (Base64 DER). Leave empty in dev to auto-generate;
+      # set in prod so tokens survive restarts.
+      private-key: ${JWT_PRIVATE_KEY:}
+      public-key: ${JWT_PUBLIC_KEY:}
   stripe:
     secret-key: ${STRIPE_SECRET_KEY:sk_test_placeholder}
     webhook-secret: ${STRIPE_WEBHOOK_SECRET:whsec_placeholder}

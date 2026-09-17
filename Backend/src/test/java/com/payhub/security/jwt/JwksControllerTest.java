@@ -16,7 +16,7 @@ class JwksControllerTest {
     @Test
     @SuppressWarnings("unchecked")
     void jwks_exposesPublicKeyOnly() {
-        JwksController controller = new JwksController(new RsaKeyProvider());
+        JwksController controller = new JwksController(new RsaKeyProvider("", ""));
 
         Map<String, Object> jwks = controller.jwks();
 
