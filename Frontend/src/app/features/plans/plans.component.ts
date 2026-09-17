@@ -59,6 +59,15 @@ import { SubscriptionService } from '../../core/subscription.service';
         }
       </div>
     }
+
+    @if (busy()) {
+      <div class="overlay">
+        <div class="overlay-card">
+          <mat-spinner diameter="48"></mat-spinner>
+          <p>Redirecting to secure checkout…</p>
+        </div>
+      </div>
+    }
   `,
   styles: [
     `
@@ -83,6 +92,29 @@ import { SubscriptionService } from '../../core/subscription.service';
         color: var(--brand-1); font-weight: 800;
       }
       .cta { width: 100%; }
+
+      .overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        display: grid;
+        place-items: center;
+        background: rgba(15, 23, 42, 0.45);
+        backdrop-filter: blur(3px);
+        animation: fade 0.15s ease-out;
+      }
+      .overlay-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+        padding: 32px 40px;
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 20px 50px rgba(2, 6, 23, 0.25);
+      }
+      .overlay-card p { margin: 0; color: var(--ink); font-weight: 600; }
+      @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
     `,
   ],
 })
